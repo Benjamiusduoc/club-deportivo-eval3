@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "ms-socios ClubDeportivo",
+    "description": "Colección para probar la API de socios (Spring Boot ms-socios). Base: http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081" }
+  ],
+  "item": [
+    {
+      "name": "Crear socio",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana Pérez\",\n  \"rut\": \"12345678-9\",\n  \"email\": \"ana.perez@ejemplo.cl\"\n}"
+        },
+        "url": "{{baseUrl}}/api/socios"
+      }
+    },
+    {
+      "name": "Listar todos",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/socios" }
+    },
+    {
+      "name": "Listar activos",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/socios/activos" }
+    },
+    {
+      "name": "Contar activos",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/socios/estadisticas/activos" }
+    },
+    {
+      "name": "Obtener por RUT",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/socios/rut/12345678-9" }
+    },
+    {
+      "name": "Obtener por ID",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/socios/1" }
+    },
+    {
+      "name": "Actualizar socio",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana Pérez López\",\n  \"rut\": \"12345678-9\",\n  \"email\": \"ana.actualizada@ejemplo.cl\"\n}"
+        },
+        "url": "{{baseUrl}}/api/socios/1"
+      }
+    },
+    {
+      "name": "Reactivar socio",
+      "request": { "method": "PUT", "header": [], "url": "{{baseUrl}}/api/socios/1/reactivar" }
+    },
+    {
+      "name": "Actualizar email",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nuevo.correo@ejemplo.cl\"\n}"
+        },
+        "url": "{{baseUrl}}/api/socios/1/email"
+      }
+    },
+    {
+      "name": "Desactivar socio",
+      "request": { "method": "DELETE", "header": [], "url": "{{baseUrl}}/api/socios/1" }
+    }
+  ]
+}
