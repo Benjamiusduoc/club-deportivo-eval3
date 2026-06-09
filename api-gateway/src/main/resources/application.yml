@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: dev
+
+---
+# Desarrollo local: ms-socios corre en localhost:8081
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: ms-socios
+              uri: ${MS_SOCIOS_URI:http://localhost:8081}
+              predicates:
+                - Path=/api/socios/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+
+---
+# Produccion / Docker: URIs por variables de entorno
+spring:
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: ms-socios
+              uri: ${MS_SOCIOS_URI:http://ms-socios:8081}
+              predicates:
+                - Path=/api/socios/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
