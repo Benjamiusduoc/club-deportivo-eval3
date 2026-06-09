@@ -17,12 +17,23 @@ Sistema para gestionar un club deportivo: socios, cuotas, actividades, reservas 
 | Servicio | Puerto | Descripcion | Estado |
 |----------|--------|-------------|--------|
 | `ms-socios` | 8081 | Gestion de socios del club | Implementado |
-| `api-gateway` | 8080 | Enrutamiento centralizado | Pendiente |
+| `api-gateway` | 8080 | Enrutamiento centralizado | Implementado |
 | _(otros 8 MS)_ | — | Por definir con el equipo | Pendiente |
+
+## API Gateway - Rutas principales
+
+**Punto de entrada recomendado:** `http://localhost:8080`
+
+| Ruta en Gateway | Microservicio destino | Descripcion |
+|-----------------|----------------------|-------------|
+| `/api/socios/**` | `ms-socios:8081` | Todas las operaciones de socios |
+
+**Health check del Gateway:** `http://localhost:8080/actuator/health`
 
 ## ms-socios - Endpoints
 
-Base URL local: `http://localhost:8081`
+Base URL directa (sin Gateway): `http://localhost:8081`  
+Base URL via Gateway: `http://localhost:8080`
 
 | Metodo | Ruta | Descripcion |
 |--------|------|-------------|
@@ -39,7 +50,7 @@ Base URL local: `http://localhost:8081`
 
 ## Documentacion Swagger
 
-- **UI local:** [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+- **UI local ms-socios:** [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
 - **OpenAPI JSON:** [http://localhost:8081/api-docs](http://localhost:8081/api-docs)
 
 ## Ejecucion local
@@ -50,14 +61,22 @@ Base URL local: `http://localhost:8081`
 - Maven 3.9+
 - MySQL (Laragon recomendado)
 
-### Pasos
+### Pasos (2 terminales)
 
+**Terminal 1 - Microservicio de socios:**
 ```bash
 cd ms-socios
 ./mvnw spring-boot:run
 ```
 
-Perfil activo por defecto: `dev` (MySQL local).
+**Terminal 2 - API Gateway:**
+```bash
+cd api-gateway
+./mvnw spring-boot:run
+```
+
+Perfil activo por defecto: `dev` (MySQL local).  
+Las peticiones del cliente deben ir al Gateway (`:8080`), no directo al microservicio.
 
 ### Variables de entorno (perfil prod)
 
@@ -66,7 +85,8 @@ Perfil activo por defecto: `dev` (MySQL local).
 | `MYSQL_URL` | URL JDBC de MySQL |
 | `MYSQL_USER` | Usuario de BD |
 | `MYSQL_PASSWORD` | Contrasena de BD |
-| `SERVER_PORT` / `PORT` | Puerto del servicio (default: 8081) |
+| `SERVER_PORT` / `PORT` | Puerto del servicio (default: 8081 en ms-socios) |
+| `MS_SOCIOS_URI` | URL de ms-socios para el Gateway (default: `http://localhost:8081`) |
 
 ## Pruebas unitarias
 
@@ -80,6 +100,17 @@ Reporte de cobertura: `ms-socios/target/site/jacoco/index.html`
 
 ## Docker
 
+### Todo el stack con docker-compose (recomendado)
+
+```bash
+docker-compose up --build
+```
+
+Levanta: MySQL + `ms-socios` + `api-gateway`.  
+Probar: `http://localhost:8080/api/socios`
+
+### Solo ms-socios
+
 ```bash
 cd ms-socios
 docker build -t ms-socios .
@@ -91,11 +122,18 @@ docker run -p 8081:8081 \
   ms-socios
 ```
 
-## API Gateway
+### Solo api-gateway
 
-_(se documentara en el Paso 2)_
+```bash
+cd api-gateway
+docker build -t api-gateway .
+docker run -p 8080:8080 \
+  -e SPRING_PROFILES_ACTIVE=prod \
+  -e MS_SOCIOS_URI=http://host.docker.internal:8081 \
+  api-gateway
+```
 
 ## Herramientas colaborativas
 
-- **GitHub:** _(enlace del repositorio)_
+- **GitHub:** https://github.com/Benjamiusduoc/club-deportivo-eval3
 - **Trello:** _(enlace del tablero)_

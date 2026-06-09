@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "Club Deportivo - API Gateway",
+    "description": "Peticiones a traves del API Gateway (puerto 8080). El Gateway reenvia a los microservicios.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "gatewayUrl", "value": "http://localhost:8080" }
+  ],
+  "item": [
+    {
+      "name": "Socios - Crear socio",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Ana Perez\",\n  \"rut\": \"12345678-9\",\n  \"email\": \"ana.perez@ejemplo.cl\"\n}"
+        },
+        "url": "{{gatewayUrl}}/api/socios"
+      }
+    },
+    {
+      "name": "Socios - Listar todos",
+      "request": { "method": "GET", "url": "{{gatewayUrl}}/api/socios" }
+    },
+    {
+      "name": "Socios - Listar activos",
+      "request": { "method": "GET", "url": "{{gatewayUrl}}/api/socios/activos" }
+    },
+    {
+      "name": "Socios - Contar activos",
+      "request": { "method": "GET", "url": "{{gatewayUrl}}/api/socios/estadisticas/activos" }
+    },
+    {
+      "name": "Socios - Obtener por ID",
+      "request": { "method": "GET", "url": "{{gatewayUrl}}/api/socios/1" }
+    },
+    {
+      "name": "Gateway - Health",
+      "request": { "method": "GET", "url": "{{gatewayUrl}}/actuator/health" }
+    }
+  ]
+}
