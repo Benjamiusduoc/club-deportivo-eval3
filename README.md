@@ -6,7 +6,8 @@ Backend del proyecto semestral **Club Deportivo**, desarrollado con Spring Boot 
 
 | Nombre | Rol |
 |--------|-----|
-| _(completar con los nombres del equipo)_ | Desarrollo |
+| Benjamin Salgado | Desarrollo |
+| Brahyan Rojas | Desarrollo |
 
 ## Contexto del dominio
 
@@ -223,6 +224,66 @@ docker run -p 8080:8080 \
   -e MS_CUOTAS_URI=http://host.docker.internal:8082 \
   api-gateway
 ```
+
+## Despliegue remoto en Railway
+
+### Requisitos
+1. Cuenta en [Railway](https://railway.app) (login con GitHub)
+2. Repositorio en GitHub (público)
+3. JDK 21 + Docker local para pruebas
+
+### Pasos
+
+1. **Crear proyecto en Railway**
+   - Ir a [Railway Dashboard](https://railway.app/dashboard) → New Project
+   - Seleccionar "Deploy from GitHub repo"
+   - Conectar el repositorio
+
+2. **Agregar MySQL**
+   - En el proyecto → New → Database → Add MySQL
+   - Railway entrega una URL tipo `mysql://user:pass@host:port/railway`
+   - Copiar la URL para usarla en `MYSQL_URL` de cada servicio
+   - (Transformar a formato JDBC: `jdbc:mysql://host:port/railway...`)
+
+3. **Crear servicios**
+   - Para cada microservicio: New → Service → Select repo
+   - En Settings → Root Directory: escribir `ms-socios` (o el que corresponda)
+   - Railway detecta el `Dockerfile` automaticamente
+   - En Variables de entorno, agregar:
+
+   **ms-socios:**
+   ```
+   SPRING_PROFILES_ACTIVE=prod
+   MYSQL_URL=jdbc:mysql://{host}:{port}/{database}?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+   MYSQL_USER={user}
+   MYSQL_PASSWORD={pass}
+   SERVER_PORT=8081
+   ```
+
+   **ms-cuotas:**
+   ```
+   SPRING_PROFILES_ACTIVE=prod
+   MYSQL_URL=jdbc:mysql://{host}:{port}/{database}?...
+   MYSQL_USER={user}
+   MYSQL_PASSWORD={pass}
+   SERVER_PORT=8082
+   MS_SOCIOS_URL=https://ms-socios.up.railway.app
+   ```
+
+   **api-gateway:**
+   ```
+   SPRING_PROFILES_ACTIVE=prod
+   PORT=8080
+   MS_SOCIOS_URI=https://ms-socios.up.railway.app
+   MS_CUOTAS_URI=https://ms-cuotas.up.railway.app
+   (agregar URI de los demas MS segun corresponda)
+   ```
+
+4. **Probar**
+   - Ir a la URL generada por Railway: `https://{gateway}.up.railway.app/api/socios`
+   - Healthcheck: `https://{gateway}.up.railway.app/actuator/health`
+
+> **Nota:** El tier gratis de Railway tiene $5 de credito mensual. Con 3 servicios (socios + cuotas + gateway) alcanza para el demo.
 
 ## Herramientas colaborativas
 
