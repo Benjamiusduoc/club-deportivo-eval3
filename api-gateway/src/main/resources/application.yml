@@ -35,6 +35,86 @@ spring:
                     retries: 2
                     statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
                     methods: GET
+            - id: ms-actividades
+              uri: ${MS_ACTIVIDADES_URI:http://localhost:8083}
+              predicates:
+                - Path=/api/actividades/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-instructores
+              uri: ${MS_INSTRUCTORES_URI:http://localhost:8084}
+              predicates:
+                - Path=/api/instructores/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-configuracion
+              uri: ${MS_CONFIGURACION_URI:http://localhost:8085}
+              predicates:
+                - Path=/api/configuracion/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-inventario
+              uri: ${MS_INVENTARIO_URI:http://localhost:8086}
+              predicates:
+                - Path=/api/inventario/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-reservas
+              uri: ${MS_RESERVAS_URI:http://localhost:8087}
+              predicates:
+                - Path=/api/reservas/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-asistencia
+              uri: ${MS_ASISTENCIA_URI:http://localhost:8088}
+              predicates:
+                - Path=/api/asistencia/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-notificaciones
+              uri: ${MS_NOTIFICACIONES_URI:http://localhost:8089}
+              predicates:
+                - Path=/api/notificaciones/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-reportes
+              uri: ${MS_REPORTES_URI:http://localhost:8090}
+              predicates:
+                - Path=/api/reportes/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
 
 server:
   port: ${SERVER_PORT:8080}
@@ -70,6 +150,86 @@ spring:
               uri: ${MS_CUOTAS_URI:http://ms-cuotas:8082}
               predicates:
                 - Path=/api/cuotas/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-actividades
+              uri: ${MS_ACTIVIDADES_URI:http://ms-actividades:8083}
+              predicates:
+                - Path=/api/actividades/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-instructores
+              uri: ${MS_INSTRUCTORES_URI:http://ms-instructores:8084}
+              predicates:
+                - Path=/api/instructores/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-configuracion
+              uri: ${MS_CONFIGURACION_URI:http://ms-configuracion:8085}
+              predicates:
+                - Path=/api/configuracion/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-inventario
+              uri: ${MS_INVENTARIO_URI:http://ms-inventario:8086}
+              predicates:
+                - Path=/api/inventario/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-reservas
+              uri: ${MS_RESERVAS_URI:http://ms-reservas:8087}
+              predicates:
+                - Path=/api/reservas/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-asistencia
+              uri: ${MS_ASISTENCIA_URI:http://ms-asistencia:8088}
+              predicates:
+                - Path=/api/asistencia/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-notificaciones
+              uri: ${MS_NOTIFICACIONES_URI:http://ms-notificaciones:8089}
+              predicates:
+                - Path=/api/notificaciones/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-reportes
+              uri: ${MS_REPORTES_URI:http://ms-reportes:8090}
+              predicates:
+                - Path=/api/reportes/**
               filters:
                 - name: Retry
                   args:

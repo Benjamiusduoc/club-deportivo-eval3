@@ -48,16 +48,168 @@ services:
     ports:
       - "8082:8082"
 
+  ms-actividades:
+    build: ./ms-actividades
+    container_name: ms-actividades
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_actividades?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8083
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8083:8083"
+
+  ms-instructores:
+    build: ./ms-instructores
+    container_name: ms-instructores
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_instructores?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8084
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8084:8084"
+
+  ms-configuracion:
+    build: ./ms-configuracion
+    container_name: ms-configuracion
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_configuracion?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8085
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8085:8085"
+
+  ms-inventario:
+    build: ./ms-inventario
+    container_name: ms-inventario
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_inventario?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8086
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8086:8086"
+
+  ms-reservas:
+    build: ./ms-reservas
+    container_name: ms-reservas
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_reservas?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8087
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      MS_SOCIOS_URL: http://ms-socios:8081
+      MS_ACTIVIDADES_URL: http://ms-actividades:8083
+      MS_INSTRUCTORES_URL: http://ms-instructores:8084
+    ports:
+      - "8087:8087"
+
+  ms-asistencia:
+    build: ./ms-asistencia
+    container_name: ms-asistencia
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_asistencia?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8088
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      MS_RESERVAS_URL: http://ms-reservas:8087
+      MS_SOCIOS_URL: http://ms-socios:8081
+    ports:
+      - "8088:8088"
+
+  ms-notificaciones:
+    build: ./ms-notificaciones
+    container_name: ms-notificaciones
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_notificaciones?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8089
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      MS_SOCIOS_URL: http://ms-socios:8081
+    ports:
+      - "8089:8089"
+
+  ms-reportes:
+    build: ./ms-reportes
+    container_name: ms-reportes
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_reportes?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8090
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      MS_SOCIOS_URL: http://ms-socios:8081
+      MS_CUOTAS_URL: http://ms-cuotas:8082
+    ports:
+      - "8090:8090"
+
   api-gateway:
     build: ./api-gateway
     container_name: api-gateway
     depends_on:
       - ms-socios
       - ms-cuotas
+      - ms-actividades
+      - ms-instructores
+      - ms-configuracion
+      - ms-inventario
+      - ms-reservas
+      - ms-asistencia
+      - ms-notificaciones
+      - ms-reportes
     environment:
       SPRING_PROFILES_ACTIVE: prod
       MS_SOCIOS_URI: http://ms-socios:8081
       MS_CUOTAS_URI: http://ms-cuotas:8082
+      MS_ACTIVIDADES_URI: http://ms-actividades:8083
+      MS_INSTRUCTORES_URI: http://ms-instructores:8084
+      MS_CONFIGURACION_URI: http://ms-configuracion:8085
+      MS_INVENTARIO_URI: http://ms-inventario:8086
+      MS_RESERVAS_URI: http://ms-reservas:8087
+      MS_ASISTENCIA_URI: http://ms-asistencia:8088
+      MS_NOTIFICACIONES_URI: http://ms-notificaciones:8089
+      MS_REPORTES_URI: http://ms-reportes:8090
       PORT: 8080
     ports:
       - "8080:8080"
