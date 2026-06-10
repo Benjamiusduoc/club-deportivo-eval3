@@ -1,0 +1,76 @@
+[[services]]
+name = "ms-socios"
+root = "ms-socios"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-cuotas"
+root = "ms-cuotas"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-actividades"
+root = "ms-actividades"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-instructores"
+root = "ms-instructores"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-configuracion"
+root = "ms-configuracion"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-inventario"
+root = "ms-inventario"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-reservas"
+root = "ms-reservas"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-asistencia"
+root = "ms-asistencia"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-notificaciones"
+root = "ms-notificaciones"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "ms-reportes"
+root = "ms-reportes"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
+
+[[services]]
+name = "api-gateway"
+root = "api-gateway"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+healthcheckPath = "/actuator/health"
