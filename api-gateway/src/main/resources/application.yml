@@ -25,6 +25,16 @@ spring:
                     retries: 2
                     statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
                     methods: GET
+            - id: ms-cuotas
+              uri: ${MS_CUOTAS_URI:http://localhost:8082}
+              predicates:
+                - Path=/api/cuotas/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
 
 server:
   port: ${SERVER_PORT:8080}
@@ -50,6 +60,16 @@ spring:
               uri: ${MS_SOCIOS_URI:http://ms-socios:8081}
               predicates:
                 - Path=/api/socios/**
+              filters:
+                - name: Retry
+                  args:
+                    retries: 2
+                    statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+                    methods: GET
+            - id: ms-cuotas
+              uri: ${MS_CUOTAS_URI:http://ms-cuotas:8082}
+              predicates:
+                - Path=/api/cuotas/**
               filters:
                 - name: Retry
                   args:

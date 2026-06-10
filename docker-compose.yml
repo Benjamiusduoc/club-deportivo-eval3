@@ -1,0 +1,66 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: club-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms_socios
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ms-socios:
+    build: ./ms-socios
+    container_name: ms-socios
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_socios?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8081
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8081:8081"
+
+  ms-cuotas:
+    build: ./ms-cuotas
+    container_name: ms-cuotas
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MYSQL_URL: jdbc:mysql://mysql:3306/ms_cuotas?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=America/Santiago
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      SERVER_PORT: 8082
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      MS_SOCIOS_URL: http://ms-socios:8081
+    ports:
+      - "8082:8082"
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    depends_on:
+      - ms-socios
+      - ms-cuotas
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      MS_SOCIOS_URI: http://ms-socios:8081
+      MS_CUOTAS_URI: http://ms-cuotas:8082
+      PORT: 8080
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
