@@ -1,11 +1,11 @@
 {
   "info": {
     "name": "ms-socios ClubDeportivo",
-    "description": "Colección para probar la API de socios (Spring Boot ms-socios). Base: http://localhost:8080",
+    "description": "Colección para probar la API de socios (Spring Boot ms-socios). Base: https://socios-production.up.railway.app/",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8081" }
+    { "key": "baseUrl", "value": "https://socios-production.up.railway.app/" }
   ],
   "item": [
     {
