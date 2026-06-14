@@ -12,7 +12,7 @@ public class ItemRequestDTO {
     private String nombre;
 
     @NotNull(message = "La cantidad total es obligatoria")
-    @Min(value = 1, message = "La cantidad total debe ser al menos 1")
+    @Min(value = 0, message = "El stock no puede tener valores negativos")
     private Integer cantidadTotal;
 
     private Long idActividad;
