@@ -67,7 +67,7 @@ public class ActividadService {
         log.info("Buscando actividad con ID: {}", id);
         Actividad actividad = actividadRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("No se encontró la actividad con ID: {}", id);
+                    log.warn("No se encontró la actividad con ID: {}", id);
                     return new RecursoNoEncontradoException("Actividad no encontrada con el ID proporcionado.");
                 });
         return ActividadResponseDTO.fromEntity(actividad);
@@ -78,7 +78,7 @@ public class ActividadService {
 
         Actividad actividad = actividadRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("No se encontró la actividad con ID: {}", id);
+                    log.warn("No se encontró la actividad con ID: {}", id);
                     return new RecursoNoEncontradoException("Actividad no encontrada con el ID proporcionado.");
                 });
 
@@ -104,7 +104,7 @@ public class ActividadService {
 
         Actividad actividad = actividadRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("No se encontró la actividad con ID: {}", id);
+                    log.warn("No se encontró la actividad con ID: {}", id);
                     return new RecursoNoEncontradoException("Actividad no encontrada con el ID proporcionado.");
                 });
 
