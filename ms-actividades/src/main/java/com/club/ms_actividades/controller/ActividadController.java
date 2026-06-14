@@ -58,14 +58,22 @@ public class ActividadController {
         return new ResponseEntity<>(actividad, HttpStatus.OK);
     }
 
-    @Operation(summary = "Actualizar actividad")
+    @Operation(
+            summary = "Actualizar actividad",
+            description = "Modifica los datos de una actividad existente a partir de su ID. "
+                    + "Aplica validaciones sobre el cuerpo de la petición y devuelve el recurso actualizado."
+    )
     @PutMapping("/{id}")
     public ResponseEntity<ActividadResponseDTO> actualizar(@PathVariable Long id, @Valid @RequestBody ActividadRequestDTO dto) {
         ActividadResponseDTO actualizada = actividadService.actualizar(id, dto);
         return new ResponseEntity<>(actualizada, HttpStatus.OK);
     }
 
-    @Operation(summary = "Desactivar actividad", description = "Soft delete: marca activo=false")
+    @Operation(
+            summary = "Desactivar actividad",
+            description = "Ejecuta un borrado lógico sobre la actividad indicada. "
+                    + "El registro permanece en base de datos, pero queda con estado inactivo y deja de aparecer en listados de actividades activas."
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<ActividadResponseDTO> desactivar(@PathVariable Long id) {
         ActividadResponseDTO desactivada = actividadService.desactivar(id);
